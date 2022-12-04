@@ -4,26 +4,30 @@
 <head>
     <title>Lego - Sets</title>
     <style>
-        .search-form {
+        .search-form 
+        {
 
             padding: 1em;
             border: solid 1px black;
             background-color: gold;
             margin: 1em;
         }
-        .search-results {
+        .search-results 
+        {
             border: solid 1px black;
             background-color: gold;
             font-style: arial;
         }
-        span{
+        span
+        {
             margin: 1em;
             padding: 1em;
             border:  solid 2px gold; 
             background-color: black;
             color: gold;
         }
-        p{
+        p
+        {
             margin: 1em;
             padding: 1em;
             border: solid 2px black;
@@ -112,11 +116,10 @@
             <select name="page">
                 {%for p in range(final_page) %}
                 <option {{'selected' if page==p+1 else '' }}> {{p+1}}</option>
-                
                 {% endfor %}
             </select>
         </label>
-        <button type="submit">go</button>
+        <button type="submit">Go!</button>
         </p>
     </form>
 
@@ -182,6 +185,9 @@
                             {% endif %}
                         {% endif %}
                     </th>
+                    <th>
+                        Favorite?
+                    </th>
                 </tr>
                 {% for set in results %}
                 <tr>
@@ -190,6 +196,12 @@
                     <td>{{set['theme_name']}}</td>
                     <td>{{set['year']}}</td>
                     <td>{{set['part_count']}}</td>
+
+                    <td>
+                    <form method="post" action="sets">
+                          <input type="checkbox" name="favorite" value="{{set['favorite']}}">
+                    </form>
+                    </td>
                 </tr>
                 {% endfor %}
                 

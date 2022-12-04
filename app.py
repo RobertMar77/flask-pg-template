@@ -10,6 +10,32 @@ conn = psycopg2.connect(
     cursor_factory=RealDictCursor)
 app = Flask(__name__)
 
+new_col_cmd = '''
+alter table set
+add column if not exists favorite boolean default false
+''';
+
+def update_fav(arg_name, arg_true):
+    bool = "false";
+    if (arg_true):
+        bool = "true";
+    return '''
+    insert into set(''' + arg_name + ''')
+    values(''' + bool + ''')
+    where set_name = ""
+    ''';
+
+def get_conn():
+    conn = psycopg2.connect(
+    "host=db dbname=postgres user=postgres password=postgres",
+    cursor_factory=RealDictCursor)
+    return conn.cursor;
+
+def set_fav(arg_name, arg_bool):
+    cur = get_conn();
+    with cur:
+        update_fav(arg_name, arg_bool);
+
 
 @app.route("/sets")
 def search_sets_html():
@@ -31,6 +57,7 @@ def search_sets_html():
         if sort_by not in SORT_BY_PARAMS:
             sort_by = "theme_name"
 
+        cur.execute(new_col_cmd);
 
         count = count_sets(cur, set_name_contains= set_name, theme_name_contains =theme_name, part_count_gte=part_count_gte, part_count_lte=part_count_lte)
         results= search_sets(cur, set_name_contains= set_name, theme_name_contains =theme_name,  part_count_gte=part_count_gte, part_count_lte=part_count_lte, 
