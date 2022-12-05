@@ -2,28 +2,32 @@
 <html lang="en">
 
 <head>
-    <title>Lego - Sets</title>
+    <title>LEGO Set Catalog</title>
     <style>
-        .search-form {
+        .search-form 
+        {
 
             padding: 1em;
             border: solid 1px black;
             background-color: gold;
             margin: 1em;
         }
-        .search-results {
+        .search-results 
+        {
             border: solid 1px black;
             background-color: gold;
             font-style: arial;
         }
-        span{
+        span
+        {
             margin: 1em;
             padding: 1em;
             border:  solid 2px gold; 
             background-color: black;
             color: gold;
         }
-        p{
+        p
+        {
             margin: 1em;
             padding: 1em;
             border: solid 2px black;
@@ -112,11 +116,10 @@
             <select name="page">
                 {%for p in range(final_page) %}
                 <option {{'selected' if page==p+1 else '' }}> {{p+1}}</option>
-                
                 {% endfor %}
             </select>
         </label>
-        <button type="submit">go</button>
+        <button type="submit">Go!</button>
         </p>
     </form>
 
@@ -182,6 +185,9 @@
                             {% endif %}
                         {% endif %}
                     </th>
+                    <th>
+                        Favorite?
+                    </th>
                 </tr>
                 {% for set in results %}
                 <tr>
@@ -190,6 +196,19 @@
                     <td>{{set['theme_name']}}</td>
                     <td>{{set['year']}}</td>
                     <td>{{set['part_count']}}</td>
+
+                    <td>
+                    {% if set["favorite"] %}
+                    <form method="post" action="sets">
+                        <img src="{{res['img1']}}" align="middle"/>
+                        <button type="submit" name="nofavorite" value="{{set['set_num']}}">Remove from Favorites!</button>
+                    </form>
+                    {% else %}
+                    <form method="post" action="sets">
+                        <button type="submit" name="favorite" value="{{set['set_num']}}">Save to Favorites!</button>
+                    </form>
+                    {% endif %}
+                    </td>
                 </tr>
                 {% endfor %}
                 
@@ -212,7 +231,7 @@
                             <option {{'selected' if page==p+1 else '' }}> {{p+1}}</option>
                         {% endfor %}
                       </select>
-                      <button type="submit">go</button>
+                      <button type="submit">Go!</button>
                     </form>
                   
               
@@ -222,13 +241,10 @@
                   </tfoot>
             </table>
         </form>
-    
 
-
-  
-
-  
-
+        <form action="my-sets">
+            <button type="submit">View Favorite Sets</button>
+         </form>
 
 
 </body>
