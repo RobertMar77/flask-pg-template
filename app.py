@@ -40,9 +40,22 @@ def do_nothing():
     return 0;
 
 
+
+
+
 @app.route("/my-sets", methods = ["GET", "POST"])
 def view_favorite_sets():
     do_nothing();
+    
+    
+    
+    
+@app.route("/receipt", methods = ["GET", "POST"])
+def view_favorite_sets():
+    do_nothing();
+    
+    
+    
 
 @app.route("/sets", methods = ["GET", "POST"])
 def search_sets_html():
