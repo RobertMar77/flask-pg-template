@@ -72,3 +72,36 @@ where lower(s.name) like lower(%(set_name_param)s)
         'part_count_lte_param': int(part_count_lte),
     })
     return cur.fetchone()['count']
+
+
+def fav_sets(cur: cursor) -> list[dict[str, str]]:
+    """
+    Search the sets table with the given parameters
+    """
+
+
+    cur.execute("""
+select s.name as set_name,
+    s.set_num,
+    s.year,
+    t.name as theme_name,
+    s.num_parts as part_count,
+    s.favorite
+from set s
+    inner join theme t on s.theme_id = t.id
+where favorite=true
+order by s.name
+    """)
+    return list(cur)
+
+
+def count_fav(cur: cursor) -> list[dict[str, str]]:
+               
+    cur.execute("""
+        select SUM(s.num_parts)   as total
+    from set s
+    inner join theme t on s.theme_id = t.id
+    where favorite=true
+    """
+    )
+    return cur.fetchone()['total']
