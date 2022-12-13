@@ -1,7 +1,8 @@
+
 from flask import Flask, render_template, request, url_for;
 import psycopg2;
 from psycopg2.extras import RealDictCursor;
-from sets import count_sets, search_sets;
+from sets import count_sets, search_sets, fav_sets, count_fav;
 from util import safe_int;
 import math;
 
@@ -41,22 +42,16 @@ def do_nothing():
 
 
 @app.route("/my-sets", methods = ["GET", "POST"])
-def view_favorite_sets():
-    do_nothing();
 
-def set_favorite(arg_name):
-    if arg_name != "":
-        print(arg_name);
-        with conn.cursor() as cur:
-            cur.execute(f'''
-            update set
-            set favorite = true
-            where cast(set.set_num as text) = %(arg)s
-            ''', 
-            {
-                'arg': f"%{arg_name or ''}%",
-            });
-            
+def favorite():
+
+    with conn.cursor() as cur:
+        results =fav_sets( cur  );
+
+        count_fav_part=int(count_fav(cur))
+        Total =(int)(count_fav_part)
+        max=Total*0.11
+        return render_template("my-sets.html",  results=results, max=max);  
 
 
 @app.route("/sets", methods = ["GET", "POST"])
@@ -129,5 +124,3 @@ def search_sets_html():
         part_count_lte = part_count_lte, sort_by = sort_by, sort_dir = sort_dir, final_page=final_page, res=res);
        
         
-
-
