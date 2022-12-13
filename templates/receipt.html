@@ -1,1 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <title>Lego - Sets</title>
+    <style>
+        .search-form {
+
+            padding: 1em;
+            border: solid 1px black;
+            background-color: gold;
+            margin: 1em;
+        }
+        .search-results {
+            border: solid 1px black;
+            background-color: gold;
+            font-style: arial;
+        }
+        span{
+            margin: 1em;
+            padding: 1em;
+            
+            
+        }
+        p{
+            margin: 1em;
+            padding: 1em;
+            border: solid 2px black;
+            background-color: gold;
+        }
+        
+        
+
+
+    </style>
+</head>
+
+<body>   
+
+    
+
+
+
+
+
+        <form method="get" action="sets">
+           
+            
+            <table border="1", cellpadding="5", class="search-results">
+                <tr>
+                    <th>Set_Num</th>
+                    <th>Set_Name </th>
+                    <th>Theme </th>
+                    <th>Year</th>
+                    <th>Part_Count</th>
+                </tr>
+                {% for set in results %}
+                <tr>
+                    <td>{{set['set_num']}}</td>
+                    <td>{{set['set_name']}}</td>
+                    <td>{{set['theme_name']}}</td>
+                    <td>{{set['year']}}</td>
+                    <td>{{set['part_count']}}</td>
+                </tr>
+                {% endfor %}
+                
+
+
+
+
+                
+                  
+              
+              
+                
+            </table>
+        </form>
+    
+
+
+  
+
+  
+        <span>Total Cost: ${{max}}    
+            
+            <form action="sets">
+                    <button type="submit">View All Sets</button>
+            </form>
+        </span>
+
+
+</body>
+
+</html>
