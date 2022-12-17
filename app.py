@@ -41,16 +41,52 @@ def do_nothing():
 
 
 @app.route("/my-sets", methods = ["GET", "POST"])
-
-def favorite():
-
+def view_favorite_sets():
     with conn.cursor() as cur:
         results =fav_sets( cur  );
 
         count_fav_part=int(count_fav(cur))
         Total =(int)(count_fav_part)
-        max=Total*0.11
-        return render_template("my-sets.html",  results=results, max=max);  
+        max=Total*0.15
+        return render_template("my-sets.html",  results=results, max=max);
+
+def set_favorite(arg_name):
+    if arg_name != "":
+        print(arg_name);
+        with conn.cursor() as cur:
+            cur.execute(f'''
+            update set
+            set favorite = true
+            where cast(set.set_num as text) = %(arg)s
+            ''', 
+            {
+                'arg': f"%{arg_name or ''}%",
+            });
+
+
+@app.route("/receipt", methods = ["GET", "POST"])
+def view_favorite_sets_cost():
+    with conn.cursor() as cur:
+        results =fav_sets( cur  );
+
+        count_fav_part=int(count_fav(cur))
+        Total =(int)(count_fav_part)
+        max=Total*0.15
+        return render_template("receipt.html",  results=results, max=max);
+
+def set_favorite(arg_name):
+    if arg_name != "":
+        print(arg_name);
+        with conn.cursor() as cur:
+            cur.execute(f'''
+            update set
+            set favorite = true
+            where cast(set.set_num as text) = %(arg)s
+            ''', 
+            {
+                'arg': f"%{arg_name or ''}%",
+            });
+            
 
 
 @app.route("/sets", methods = ["GET", "POST"])
